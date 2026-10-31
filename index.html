@@ -1,76 +1,1357 @@
+
+
 <!DOCTYPE html>
+
 <html lang="zh-Hant">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Happy Birthday 🎂</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>偷偷生日快樂 ❤️</title>
+
 <style>
-  *{box-sizing:border-box}
-  body{margin:0;min-height:100svh;display:grid;place-items:center;overflow:hidden;
-    background:radial-gradient(ellipse at top,#29231c 0%,#151311 52%,#080808 100%);
-    font-family:Georgia,"Times New Roman",serif;color:#e8c879}
-  .scene{width:min(94vw,560px);height:min(90svh,720px);position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center}
-  .name{display:inline-block;font-size:.48em;letter-spacing:.18em;margin-top:.18em;color:#e8c879}
-.message{position:absolute;bottom:4%;font:500 1.1rem/1.6 system-ui,sans-serif;letter-spacing:.08em;color:#e8c879;opacity:0;transform:translateY(10px);transition:all .8s ease .35s;text-align:center;padding:0 16px}
-.scene.open .message{opacity:1;transform:translateY(0)}
-h1{position:absolute;top:8%;margin:0;font-size:clamp(2.2rem,8vw,4.5rem);font-weight:500;letter-spacing:.04em;
-    opacity:0;transform:translateY(16px);transition:all .8s ease;text-align:center;text-shadow:0 3px 22px #d9b45b66}
-  .scene.open h1{opacity:1;transform:translateY(0)}
-  .hint{position:absolute;bottom:9%;font:500  .9rem/1.5 system-ui,sans-serif;letter-spacing:.12em;color:#c4a96b;transition:opacity .4s}
-  .scene.open .hint{opacity:0}
-  .gift-wrap{position:relative;width:250px;height:230px;cursor:pointer;filter:drop-shadow(0 22px 18px #8e657433);transition:transform .8s cubic-bezier(.2,.8,.2,1)}
-  .gift-wrap:focus-visible{outline:3px solid #b77b91;outline-offset:12px;border-radius:12px}
-  .box{position:absolute;bottom:0;left:25px;width:200px;height:145px;border-radius:7px 7px 12px 12px;
-    background:linear-gradient(110deg,#6b501c,#c8a34e 48%,#4d3712);box-shadow:inset 9px 0 14px #ffffff18,inset -8px 0 15px #5b263a33}
-  .box:before{content:"";position:absolute;left:82px;width:36px;height:100%;background:linear-gradient(90deg,#b88b35,#fff0b5,#9e7427)}
-  .lid{position:absolute;z-index:3;left:12px;top:50px;width:226px;height:42px;border-radius:8px;
-    background:linear-gradient(110deg,#8a6828,#e7c76d 50%,#6b4c18);transform-origin:12% 85%;transition:transform .85s cubic-bezier(.2,.8,.2,1),top .85s}
-  .lid:before{content:"";position:absolute;left:95px;width:36px;height:100%;background:linear-gradient(90deg,#b88b35,#fff0b5,#9e7427)}
-  .bow{position:absolute;z-index:4;top:18px;left:93px;width:65px;height:48px}
-  .bow:before,.bow:after{content:"";position:absolute;width:37px;height:28px;border:9px solid #e8c879;border-radius:50% 50% 8% 50%;top:5px}
-  .bow:before{left:-9px;transform:rotate(25deg)}.bow:after{right:-9px;transform:scaleX(-1) rotate(25deg)}
-  .bow i{position:absolute;left:23px;top:19px;width:20px;height:20px;border-radius:50%;background:#d9b45b;z-index:2}
-  .cake{position:absolute;z-index:2;left:50%;bottom:28px;transform:translate(-50%,35px) scale(.3);opacity:0;transition:all .8s cubic-bezier(.16,1,.3,1);pointer-events:none;width:220px;height:190px}
-  .plate{position:absolute;bottom:0;left:5px;width:210px;height:23px;border-radius:50%;background:linear-gradient(#fff,#e8d9df);box-shadow:0 8px 12px #7b4a5730}
-  .cake-body{position:absolute;bottom:16px;left:30px;width:160px;height:105px;border-radius:12px 12px 18px 18px;
-    background:linear-gradient(90deg,#f4c6b7 0 32%,#fff0df 32% 68%,#eeb6a9 68%);box-shadow:inset 0 -10px #d99591}
-  .icing{position:absolute;bottom:111px;left:24px;width:172px;height:30px;border-radius:50%;background:#fff4e8;box-shadow:0 5px 0 #e8b4b0}
-  .icing:after{content:"";position:absolute;left:15px;right:15px;top:12px;height:27px;background:#fff4e8;border-radius:0 0 14px 14px;clip-path:polygon(0 0,100% 0,100% 55%,90% 100%,80% 50%,68% 100%,55% 50%,42% 100%,30% 50%,18% 100%,8% 55%,0 100%)}
-  .candle{position:absolute;bottom:137px;left:103px;width:14px;height:43px;border-radius:4px;background:repeating-linear-gradient(45deg,#fff 0 6px,#d98da1 6px 12px)}
-  .flame{position:absolute;left:101px;bottom:177px;width:18px;height:26px;background:radial-gradient(ellipse at 50% 70%,#fff6a7 0 15%,#ffb44c 45%,#f47b55 75%);border-radius:50% 50% 45% 45%;filter:drop-shadow(0 0 12px #ffb85b);animation:flicker .6s infinite alternate}
-  @keyframes flicker{to{transform:rotate(7deg) scale(.9);opacity:.85}}
-  .scene.open .gift-wrap{transform:scale(.48) translateY(220px);opacity:.18;pointer-events:none}
-  .scene.open .lid{transform:translate(-45px,-100px) rotate(-28deg)}
-  .scene.open .cake{opacity:1;transform:translate(-50%,0) scale(1)}
-  .scene.open .box{opacity:.25}
-  .scene.open .bow{opacity:0}
-  .sparkle{position:absolute;color:#e8c879;font-size:22px;opacity:0;animation:twinkle 2s infinite}
-  .scene.open .sparkle{opacity:1}
-  .s1{top:32%;left:15%}.s2{top:40%;right:14%;animation-delay:.6s}.s3{top:58%;left:20%;animation-delay:1s}.s4{top:57%;right:18%;animation-delay:.3s}
-  @keyframes twinkle{0%,100%{transform:scale(.6) rotate(0);opacity:.3}50%{transform:scale(1.2) rotate(30deg);opacity:1}}
-  .scene.open .gift-wrap{z-index:1}
-  .cake{z-index:5}
-  @media(max-height:600px){h1{top:3%}.gift-wrap{transform:scale(.8)}.scene.open .gift-wrap{transform:scale(.4) translateY(180px)}}
+
+* {
+
+  box-sizing: border-box;
+
+}
+
+:root {
+
+  --gold: #e8c879;
+
+  --gold-light: #fff0c4;
+
+  --gold-dark: #9b7137;
+
+  --red: #b51e35;
+
+}
+
+body {
+
+  margin: 0;
+
+  min-height: 100vh;
+
+  overflow: hidden;
+
+  color: white;
+
+  font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+
+  background:
+
+    radial-gradient(ellipse at 50% 42%, #29202b 0%, #15111b 48%, #050508 100%);
+
+}
+
+/* 背景星星 */
+
+.stars {
+
+  position: fixed;
+
+  inset: 0;
+
+  overflow: hidden;
+
+  pointer-events: none;
+
+}
+
+.star {
+
+  position: absolute;
+
+  width: 3px;
+
+  height: 3px;
+
+  border-radius: 50%;
+
+  background: var(--gold);
+
+  animation: twinkle 3s infinite ease-in-out;
+
+}
+
+@keyframes twinkle {
+
+  0%, 100% {
+
+    opacity: .2;
+
+    transform: scale(.7);
+
+  }
+
+  50% {
+
+    opacity: 1;
+
+    transform: scale(1.5);
+
+  }
+
+}
+
+/* 主畫面 */
+
+.container {
+
+  position: relative;
+
+  z-index: 1;
+
+  min-height: 100vh;
+
+  width: 100%;
+
+  padding: 25px 18px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-align: center;
+
+}
+
+.top-label {
+
+  color: var(--gold);
+
+  font-size: 12px;
+
+  letter-spacing: 5px;
+
+  margin-bottom: 15px;
+
+}
+
+h1 {
+
+  margin: 0;
+
+  color: #f3d9b3;
+
+  font-size: clamp(30px, 7vw, 44px);
+
+  font-weight: 500;
+
+  letter-spacing: 4px;
+
+  text-shadow: 0 0 18px rgba(232, 200, 121, .18);
+
+}
+
+.subtitle {
+
+  margin-top: 12px;
+
+  color: #c6a7a3;
+
+  font-size: 14px;
+
+  letter-spacing: 2px;
+
+}
+
+/* 禮物盒 */
+
+.gift-scene {
+
+  position: relative;
+
+  width: 280px;
+
+  height: 300px;
+
+  margin-top: 25px;
+
+  perspective: 1000px;
+
+  cursor: pointer;
+
+  -webkit-tap-highlight-color: transparent;
+
+}
+
+.gift {
+
+  position: absolute;
+
+  left: 50%;
+
+  bottom: 30px;
+
+  width: 220px;
+
+  height: 190px;
+
+  transform: translateX(-50%);
+
+  transition: opacity .7s ease, transform .7s ease;
+
+}
+
+.gift-box {
+
+  position: absolute;
+
+  bottom: 0;
+
+  width: 220px;
+
+  height: 145px;
+
+  overflow: hidden;
+
+  border: 1px solid rgba(232, 200, 121, .65);
+
+  border-radius: 5px;
+
+  background: linear-gradient(135deg, #242126, #111014 55%, #30242a);
+
+  box-shadow:
+
+    0 18px 40px rgba(0, 0, 0, .55),
+
+    inset 0 0 20px rgba(232, 200, 121, .05);
+
+}
+
+.box-ribbon {
+
+  position: absolute;
+
+  left: 50%;
+
+  width: 34px;
+
+  height: 100%;
+
+  transform: translateX(-50%);
+
+  background: linear-gradient(90deg, #780d20, #c32a42 45%, #8e1428);
+
+}
+
+.box-ribbon-horizontal {
+
+  position: absolute;
+
+  top: 50%;
+
+  width: 100%;
+
+  height: 30px;
+
+  transform: translateY(-50%);
+
+  background: linear-gradient(180deg, #780d20, #c32a42 45%, #8e1428);
+
+}
+
+.gift-lid {
+
+  position: absolute;
+
+  bottom: 135px;
+
+  left: 50%;
+
+  z-index: 3;
+
+  width: 238px;
+
+  height: 55px;
+
+  transform: translateX(-50%);
+
+  transform-origin: 50% 100%;
+
+  border: 1px solid rgba(232, 200, 121, .85);
+
+  border-radius: 5px;
+
+  background: linear-gradient(135deg, #30262b, #171419 55%, #3c2a2f);
+
+  box-shadow: 0 8px 18px rgba(0, 0, 0, .35);
+
+  transition:
+
+    transform 1s cubic-bezier(.2, .8, .2, 1),
+
+    opacity .8s ease;
+
+}
+
+.lid-ribbon {
+
+  position: absolute;
+
+  left: 50%;
+
+  width: 34px;
+
+  height: 100%;
+
+  transform: translateX(-50%);
+
+  background: linear-gradient(90deg, #780d20, #c32a42 45%, #8e1428);
+
+}
+
+.bow {
+
+  position: absolute;
+
+  top: -40px;
+
+  left: 50%;
+
+  width: 90px;
+
+  height: 48px;
+
+  transform: translateX(-50%);
+
+}
+
+.bow::before,
+
+.bow::after {
+
+  content: "";
+
+  position: absolute;
+
+  top: 4px;
+
+  width: 42px;
+
+  height: 32px;
+
+  border: 3px solid #c52b43;
+
+  background: linear-gradient(135deg, #a7192d, #e24a5b, #8e1428);
+
+}
+
+.bow::before {
+
+  left: 0;
+
+  border-radius: 50% 50% 10% 50%;
+
+  transform: rotate(25deg);
+
+}
+
+.bow::after {
+
+  right: 0;
+
+  border-radius: 50% 50% 50% 10%;
+
+  transform: rotate(-25deg);
+
+}
+
+.bow-knot {
+
+  position: absolute;
+
+  top: 15px;
+
+  left: 50%;
+
+  z-index: 2;
+
+  width: 20px;
+
+  height: 20px;
+
+  transform: translateX(-50%);
+
+  border: 2px solid #f0a0a4;
+
+  border-radius: 50%;
+
+  background: #d13a4f;
+
+}
+
+/* 禮物盒開啟 */
+
+.gift.open .gift-lid {
+
+  transform:
+
+    translateX(-50%)
+
+    translateY(-160px)
+
+    rotateX(65deg)
+
+    rotateZ(-12deg);
+
+  opacity: 0;
+
+}
+
+.gift.open {
+
+  opacity: 0;
+
+  transform: translateX(-50%) translateY(35px) scale(.8);
+
+  pointer-events: none;
+
+}
+
+.hint {
+
+  margin-top: 15px;
+
+  color: #c9b8a7;
+
+  font-size: 13px;
+
+  letter-spacing: 2px;
+
+  animation: hintPulse 2s infinite;
+
+}
+
+@keyframes hintPulse {
+
+  0%, 100% { opacity: .45; }
+
+  50% { opacity: 1; }
+
+}
+
+/* 黑金雙層巧克力蛋糕 */
+
+.cake-wrap {
+
+  position: absolute;
+
+  top: 50%;
+
+  left: 50%;
+
+  width: 280px;
+
+  height: 280px;
+
+  transform: translate(-50%, -50%) scale(.45);
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  transition:
+
+    opacity .9s ease,
+
+    transform .9s cubic-bezier(.2, .8, .2, 1);
+
+}
+
+.cake-wrap.show {
+
+  opacity: 1;
+
+  transform: translate(-50%, -50%) scale(1);
+
+}
+
+.cake {
+
+  position: absolute;
+
+  bottom: 25px;
+
+  left: 50%;
+
+  width: 230px;
+
+  height: 220px;
+
+  transform: translateX(-50%);
+
+}
+
+/* 蛋糕底盤 */
+
+.cake-plate {
+
+  position: absolute;
+
+  bottom: 0;
+
+  left: 50%;
+
+  width: 250px;
+
+  height: 18px;
+
+  transform: translateX(-50%);
+
+  border-radius: 50%;
+
+  background: linear-gradient(180deg, #fff0d6, #c8a17f 55%, #80604e);
+
+  box-shadow:
+
+    0 8px 15px rgba(0, 0, 0, .4),
+
+    0 0 12px rgba(232, 200, 121, .15);
+
+}
+
+/* 下層蛋糕 */
+
+.cake-bottom {
+
+  position: absolute;
+
+  bottom: 15px;
+
+  left: 50%;
+
+  width: 210px;
+
+  height: 95px;
+
+  transform: translateX(-50%);
+
+  border: 1px solid #9c7548;
+
+  border-radius: 9px 9px 17px 17px;
+
+  background:
+
+    linear-gradient(
+
+      90deg,
+
+      #211713,
+
+      #4b3024 25%,
+
+      #684632 50%,
+
+      #3b261c 75%,
+
+      #1d130f
+
+    );
+
+  box-shadow:
+
+    inset 0 -12px 15px rgba(0, 0, 0, .35),
+
+    0 8px 18px rgba(0, 0, 0, .2);
+
+}
+
+.cake-bottom-top {
+
+  position: absolute;
+
+  top: -15px;
+
+  left: 50%;
+
+  width: 210px;
+
+  height: 35px;
+
+  transform: translateX(-50%);
+
+  border: 1px solid #b08a54;
+
+  border-radius: 50%;
+
+  background:
+
+    linear-gradient(
+
+      135deg,
+
+      #4d3325,
+
+      #8a6242 45%,
+
+      #392319
+
+    );
+
+}
+
+/* 上層蛋糕 */
+
+.cake-top-tier {
+
+  position: absolute;
+
+  bottom: 105px;
+
+  left: 50%;
+
+  width: 145px;
+
+  height: 70px;
+
+  transform: translateX(-50%);
+
+  border: 1px solid #a17b4c;
+
+  border-radius: 8px 8px 12px 12px;
+
+  background:
+
+    linear-gradient(
+
+      90deg,
+
+      #211510,
+
+      #573726 35%,
+
+      #704b32 55%,
+
+      #3c261a
+
+    );
+
+  box-shadow: inset 0 -8px 10px rgba(0, 0, 0, .2);
+
+}
+
+.cake-top-cap {
+
+  position: absolute;
+
+  top: -13px;
+
+  left: 50%;
+
+  width: 145px;
+
+  height: 27px;
+
+  transform: translateX(-50%);
+
+  border: 1px solid #b08a54;
+
+  border-radius: 50%;
+
+  background:
+
+    linear-gradient(
+
+      135deg,
+
+      #65452e,
+
+      #9b7047 50%,
+
+      #3a2418
+
+    );
+
+}
+
+/* 金色裝飾線 */
+
+.gold-line {
+
+  position: absolute;
+
+  z-index: 4;
+
+  bottom: 40px;
+
+  left: 50%;
+
+  width: 210px;
+
+  height: 4px;
+
+  transform: translateX(-50%);
+
+  border-radius: 50%;
+
+  background:
+
+    linear-gradient(
+
+      90deg,
+
+      #a77c3f,
+
+      #fff0b0,
+
+      #c49a51,
+
+      #fff0b0,
+
+      #a77c3f
+
+    );
+
+  box-shadow: 0 0 8px rgba(232, 200, 121, .3);
+
+}
+
+.upper-gold-line {
+
+  position: absolute;
+
+  z-index: 4;
+
+  bottom: 145px;
+
+  left: 50%;
+
+  width: 145px;
+
+  height: 3px;
+
+  transform: translateX(-50%);
+
+  border-radius: 50%;
+
+  background:
+
+    linear-gradient(
+
+      90deg,
+
+      #a77c3f,
+
+      #fff0b0,
+
+      #c49a51,
+
+      #fff0b0,
+
+      #a77c3f
+
+    );
+
+}
+
+/* 蛋糕正面 1031 */
+
+.cake-number {
+
+  position: absolute;
+
+  z-index: 7;
+
+  bottom: 55px;
+
+  left: 50%;
+
+  width: 100%;
+
+  transform: translateX(-50%);
+
+  color: #e8c879;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: 25px;
+
+  font-weight: bold;
+
+  letter-spacing: 5px;
+
+  text-shadow:
+
+    0 1px 1px #5a3b1c,
+
+    0 0 8px rgba(232, 200, 121, .35);
+
+}
+
+/* 金色蠟燭 */
+
+.candle {
+
+  position: absolute;
+
+  z-index: 8;
+
+  bottom: 168px;
+
+  left: 50%;
+
+  width: 10px;
+
+  height: 40px;
+
+  transform: translateX(-50%);
+
+  border-radius: 3px;
+
+  background:
+
+    linear-gradient(
+
+      90deg,
+
+      #9b7137,
+
+      #fff0c4,
+
+      #c49a51
+
+    );
+
+  box-shadow: 0 0 5px rgba(255, 240, 200, .2);
+
+}
+
+.flame {
+
+  position: absolute;
+
+  top: -18px;
+
+  left: 50%;
+
+  width: 13px;
+
+  height: 19px;
+
+  transform: translateX(-50%);
+
+  border-radius: 50%;
+
+  background:
+
+    radial-gradient(
+
+      ellipse at 50% 70%,
+
+      #fff6b0 0%,
+
+      #ffd35e 35%,
+
+      #f58b30 75%
+
+    );
+
+  box-shadow: 0 0 18px #ffbd45;
+
+  animation: flame .8s infinite alternate;
+
+}
+
+@keyframes flame {
+
+  from {
+
+    transform: translateX(-50%) scale(1);
+
+  }
+
+  to {
+
+    transform: translateX(-50%) scale(.85, 1.15);
+
+  }
+
+}
+
+/* 生日祝福 */
+
+.birthday-message {
+
+  margin-top: 0;
+
+  opacity: 0;
+
+  transform: translateY(20px);
+
+  transition:
+
+    opacity 1s ease .4s,
+
+    transform 1s ease .4s;
+
+  pointer-events: none;
+
+}
+
+.birthday-message.show {
+
+  opacity: 1;
+
+  transform: translateY(0);
+
+  pointer-events: auto;
+
+}
+
+.birthday-message h2 {
+
+  margin: 0;
+
+  color: #f0c9c3;
+
+  font-size: clamp(25px, 6vw, 36px);
+
+  font-weight: 500;
+
+  letter-spacing: 3px;
+
+  text-shadow: 0 0 18px rgba(232, 181, 170, .25);
+
+}
+
+.birthday-message p {
+
+  margin: 15px 0 0;
+
+  color: var(--gold);
+
+  font-size: 19px;
+
+  letter-spacing: 3px;
+
+}
+
+.heart {
+
+  display: inline-block;
+
+  color: #e94b61;
+
+  animation: heartBeat 1.2s infinite;
+
+}
+
+@keyframes heartBeat {
+
+  0%, 100% {
+
+    transform: scale(1);
+
+  }
+
+  50% {
+
+    transform: scale(1.25);
+
+  }
+
+}
+
+/* 驚喜星光 */
+
+.sparkle {
+
+  position: fixed;
+
+  z-index: 10;
+
+  pointer-events: none;
+
+  color: var(--gold);
+
+  animation: sparkle 1.4s ease-out forwards;
+
+}
+
+@keyframes sparkle {
+
+  0% {
+
+    opacity: 0;
+
+    transform: translate(0, 0) scale(0);
+
+  }
+
+  20% {
+
+    opacity: 1;
+
+    transform: translate(var(--x), var(--y)) scale(1.4);
+
+  }
+
+  100% {
+
+    opacity: 0;
+
+    transform:
+
+      translate(
+
+        calc(var(--x) * 1.8),
+
+        calc(var(--y) * 1.8)
+
+      )
+
+      scale(0);
+
+  }
+
+}
+
+.footer {
+
+  position: absolute;
+
+  bottom: 25px;
+
+  color: rgba(232, 200, 121, .45);
+
+  font-size: 11px;
+
+  letter-spacing: 3px;
+
+}
+
+/* 手機版 */
+
+@media (max-width: 480px) {
+
+  .container {
+
+    padding: 20px 15px;
+
+  }
+
+  .gift-scene {
+
+    transform: scale(.9);
+
+    margin-top: 15px;
+
+  }
+
+  .cake-wrap {
+
+    transform: translate(-50%, -50%) scale(.82);
+
+  }
+
+  .cake-wrap.show {
+
+    transform: translate(-50%, -50%) scale(.82);
+
+  }
+
+  .birthday-message h2 {
+
+    letter-spacing: 2px;
+
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+
+  *::before,
+
+  *::after {
+
+    animation-duration: .01ms !important;
+
+    animation-iteration-count: 1 !important;
+
+    transition-duration: .01ms !important;
+
+  }
+
+}
+
 </style>
+
 </head>
+
 <body>
-<main class="scene" id="scene">
-  <h1>Happy Birthday<br><span class="name">偷偷</span></h1>
-  <span class="sparkle s1">✦</span><span class="sparkle s2">✧</span><span class="sparkle s3">✦</span><span class="sparkle s4">✧</span>
-  <div class="gift-wrap" id="gift" role="button" tabindex="0" aria-label="打開生日禮物盒">
-    <div class="box"></div><div class="lid"></div><div class="bow"><i></i></div>
+
+<div class="stars" id="stars"></div>
+
+<main class="container">
+
+  <div class="top-label">
+
+    A Special Day For You
+
   </div>
-  <div class="cake" aria-hidden="true">
-    <div class="flame"></div><div class="candle"></div><div class="icing"></div><div class="cake-body"></div><div class="plate"></div>
+
+  <h1>Happy Birthday</h1>
+
+  <div class="subtitle">
+
+    給最特別的偷偷
+
   </div>
-  <div class="hint">點擊禮物盒，開啟生日驚喜 ✨</div>
-  <div class="message">祝偷偷生日快樂 愛你 ♡</div>
+
+  <!-- 禮物盒 -->
+
+  <div class="gift-scene" id="giftScene">
+
+    <div class="gift" id="gift">
+
+      <div class="gift-box">
+
+        <div class="box-ribbon"></div>
+
+        <div class="box-ribbon-horizontal"></div>
+
+      </div>
+
+      <div class="gift-lid">
+
+        <div class="lid-ribbon"></div>
+
+        <div class="bow">
+
+          <div class="bow-knot"></div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- 黑金雙層巧克力蛋糕 -->
+
+    <div class="cake-wrap" id="cakeWrap">
+
+      <div class="cake">
+
+        <div class="cake-plate"></div>
+
+        <div class="cake-bottom">
+
+          <div class="cake-bottom-top"></div>
+
+        </div>
+
+        <div class="cake-top-tier">
+
+          <div class="cake-top-cap"></div>
+
+        </div>
+
+        <div class="gold-line"></div>
+
+        <div class="upper-gold-line"></div>
+
+        <div class="cake-number">
+
+          1031
+
+        </div>
+
+        <div class="candle">
+
+          <div class="flame"></div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="hint" id="hint">
+
+    點擊禮物盒，開啟你的生日驚喜
+
+  </div>
+
+  <!-- 生日祝福 -->
+
+  <div class="birthday-message" id="birthdayMessage">
+
+    <h2>偷偷 生日快樂</h2>
+
+    <p>
+
+      愛你的頭頭
+
+      <span class="heart">♥</span>
+
+    </p>
+
+  </div>
+
+  <div class="footer">
+
+    MADE WITH LOVE
+
+  </div>
+
 </main>
+
 <script>
-const scene=document.getElementById('scene'),gift=document.getElementById('gift');
-function openGift(){scene.classList.add('open')}
-gift.addEventListener('click',openGift);
-gift.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openGift()}});
+
+const gift = document.getElementById("gift");
+
+const giftScene = document.getElementById("giftScene");
+
+const cakeWrap = document.getElementById("cakeWrap");
+
+const birthdayMessage = document.getElementById("birthdayMessage");
+
+const hint = document.getElementById("hint");
+
+const stars = document.getElementById("stars");
+
+let isOpened = false;
+
+// 背景星星
+
+for (let i = 0; i < 65; i++) {
+
+  const star = document.createElement("div");
+
+  star.className = "star";
+
+  star.style.left = Math.random() * 100 + "%";
+
+  star.style.top = Math.random() * 100 + "%";
+
+  star.style.animationDelay = Math.random() * 3 + "s";
+
+  star.style.animationDuration = 2 + Math.random() * 3 + "s";
+
+  stars.appendChild(star);
+
+}
+
+// 點擊禮物盒
+
+giftScene.addEventListener("click", () => {
+
+  if (isOpened) return;
+
+  isOpened = true;
+
+  // 禮物盒開啟
+
+  gift.classList.add("open");
+
+  // 提示文字立即消失
+
+  hint.style.display = "none";
+
+  // 星光驚喜
+
+  createSparkles();
+
+  // 顯示蛋糕
+
+  setTimeout(() => {
+
+    cakeWrap.classList.add("show");
+
+  }, 500);
+
+  // 顯示生日祝福
+
+  setTimeout(() => {
+
+    birthdayMessage.classList.add("show");
+
+  }, 1000);
+
+});
+
+// 星光動畫
+
+function createSparkles() {
+
+  const sparkleSymbols = ["✦", "✧", "✨", "★", "♡"];
+
+  const centerX = window.innerWidth / 2;
+
+  const centerY = window.innerHeight / 2;
+
+  for (let i = 0; i < 45; i++) {
+
+    const sparkle = document.createElement("div");
+
+    sparkle.className = "sparkle";
+
+    sparkle.textContent =
+
+      sparkleSymbols[
+
+        Math.floor(Math.random() * sparkleSymbols.length)
+
+      ];
+
+    sparkle.style.left = centerX + "px";
+
+    sparkle.style.top = centerY + "px";
+
+    sparkle.style.setProperty(
+
+      "--x",
+
+      (Math.random() - .5) * 350 + "px"
+
+    );
+
+    sparkle.style.setProperty(
+
+      "--y",
+
+      (Math.random() - .5) * 350 + "px"
+
+    );
+
+    sparkle.style.fontSize =
+
+      10 + Math.random() * 18 + "px";
+
+    sparkle.style.animationDelay =
+
+      Math.random() * .4 + "s";
+
+    document.body.appendChild(sparkle);
+
+    setTimeout(() => {
+
+      sparkle.remove();
+
+    }, 1800);
+
+  }
+
+}
+
 </script>
+
 </body>
+
 </html>
