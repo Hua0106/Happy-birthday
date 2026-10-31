@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Happy Birthday 🎂</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100svh;display:grid;place-items:center;overflow:hidden;
+    background:radial-gradient(ellipse at top,#29231c 0%,#151311 52%,#080808 100%);
+    font-family:Georgia,"Times New Roman",serif;color:#e8c879}
+  .scene{width:min(94vw,560px);height:min(90svh,720px);position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .name{display:inline-block;font-size:.48em;letter-spacing:.18em;margin-top:.18em;color:#e8c879}
+.message{position:absolute;bottom:4%;font:500 1.1rem/1.6 system-ui,sans-serif;letter-spacing:.08em;color:#e8c879;opacity:0;transform:translateY(10px);transition:all .8s ease .35s;text-align:center;padding:0 16px}
+.scene.open .message{opacity:1;transform:translateY(0)}
+h1{position:absolute;top:8%;margin:0;font-size:clamp(2.2rem,8vw,4.5rem);font-weight:500;letter-spacing:.04em;
+    opacity:0;transform:translateY(16px);transition:all .8s ease;text-align:center;text-shadow:0 3px 22px #d9b45b66}
+  .scene.open h1{opacity:1;transform:translateY(0)}
+  .hint{position:absolute;bottom:9%;font:500  .9rem/1.5 system-ui,sans-serif;letter-spacing:.12em;color:#c4a96b;transition:opacity .4s}
+  .scene.open .hint{opacity:0}
+  .gift-wrap{position:relative;width:250px;height:230px;cursor:pointer;filter:drop-shadow(0 22px 18px #8e657433);transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+  .gift-wrap:focus-visible{outline:3px solid #b77b91;outline-offset:12px;border-radius:12px}
+  .box{position:absolute;bottom:0;left:25px;width:200px;height:145px;border-radius:7px 7px 12px 12px;
+    background:linear-gradient(110deg,#6b501c,#c8a34e 48%,#4d3712);box-shadow:inset 9px 0 14px #ffffff18,inset -8px 0 15px #5b263a33}
+  .box:before{content:"";position:absolute;left:82px;width:36px;height:100%;background:linear-gradient(90deg,#b88b35,#fff0b5,#9e7427)}
+  .lid{position:absolute;z-index:3;left:12px;top:50px;width:226px;height:42px;border-radius:8px;
+    background:linear-gradient(110deg,#8a6828,#e7c76d 50%,#6b4c18);transform-origin:12% 85%;transition:transform .85s cubic-bezier(.2,.8,.2,1),top .85s}
+  .lid:before{content:"";position:absolute;left:95px;width:36px;height:100%;background:linear-gradient(90deg,#b88b35,#fff0b5,#9e7427)}
+  .bow{position:absolute;z-index:4;top:18px;left:93px;width:65px;height:48px}
+  .bow:before,.bow:after{content:"";position:absolute;width:37px;height:28px;border:9px solid #e8c879;border-radius:50% 50% 8% 50%;top:5px}
+  .bow:before{left:-9px;transform:rotate(25deg)}.bow:after{right:-9px;transform:scaleX(-1) rotate(25deg)}
+  .bow i{position:absolute;left:23px;top:19px;width:20px;height:20px;border-radius:50%;background:#d9b45b;z-index:2}
+  .cake{position:absolute;z-index:2;left:50%;bottom:28px;transform:translate(-50%,35px) scale(.3);opacity:0;transition:all .8s cubic-bezier(.16,1,.3,1);pointer-events:none;width:220px;height:190px}
+  .plate{position:absolute;bottom:0;left:5px;width:210px;height:23px;border-radius:50%;background:linear-gradient(#fff,#e8d9df);box-shadow:0 8px 12px #7b4a5730}
+  .cake-body{position:absolute;bottom:16px;left:30px;width:160px;height:105px;border-radius:12px 12px 18px 18px;
+    background:linear-gradient(90deg,#f4c6b7 0 32%,#fff0df 32% 68%,#eeb6a9 68%);box-shadow:inset 0 -10px #d99591}
+  .icing{position:absolute;bottom:111px;left:24px;width:172px;height:30px;border-radius:50%;background:#fff4e8;box-shadow:0 5px 0 #e8b4b0}
+  .icing:after{content:"";position:absolute;left:15px;right:15px;top:12px;height:27px;background:#fff4e8;border-radius:0 0 14px 14px;clip-path:polygon(0 0,100% 0,100% 55%,90% 100%,80% 50%,68% 100%,55% 50%,42% 100%,30% 50%,18% 100%,8% 55%,0 100%)}
+  .candle{position:absolute;bottom:137px;left:103px;width:14px;height:43px;border-radius:4px;background:repeating-linear-gradient(45deg,#fff 0 6px,#d98da1 6px 12px)}
+  .flame{position:absolute;left:101px;bottom:177px;width:18px;height:26px;background:radial-gradient(ellipse at 50% 70%,#fff6a7 0 15%,#ffb44c 45%,#f47b55 75%);border-radius:50% 50% 45% 45%;filter:drop-shadow(0 0 12px #ffb85b);animation:flicker .6s infinite alternate}
+  @keyframes flicker{to{transform:rotate(7deg) scale(.9);opacity:.85}}
+  .scene.open .gift-wrap{transform:scale(.48) translateY(220px);opacity:.18;pointer-events:none}
+  .scene.open .lid{transform:translate(-45px,-100px) rotate(-28deg)}
+  .scene.open .cake{opacity:1;transform:translate(-50%,0) scale(1)}
+  .scene.open .box{opacity:.25}
+  .scene.open .bow{opacity:0}
+  .sparkle{position:absolute;color:#e8c879;font-size:22px;opacity:0;animation:twinkle 2s infinite}
+  .scene.open .sparkle{opacity:1}
+  .s1{top:32%;left:15%}.s2{top:40%;right:14%;animation-delay:.6s}.s3{top:58%;left:20%;animation-delay:1s}.s4{top:57%;right:18%;animation-delay:.3s}
+  @keyframes twinkle{0%,100%{transform:scale(.6) rotate(0);opacity:.3}50%{transform:scale(1.2) rotate(30deg);opacity:1}}
+  .scene.open .gift-wrap{z-index:1}
+  .cake{z-index:5}
+  @media(max-height:600px){h1{top:3%}.gift-wrap{transform:scale(.8)}.scene.open .gift-wrap{transform:scale(.4) translateY(180px)}}
+</style>
+</head>
+<body>
+<main class="scene" id="scene">
+  <h1>Happy Birthday<br><span class="name">偷偷</span></h1>
+  <span class="sparkle s1">✦</span><span class="sparkle s2">✧</span><span class="sparkle s3">✦</span><span class="sparkle s4">✧</span>
+  <div class="gift-wrap" id="gift" role="button" tabindex="0" aria-label="打開生日禮物盒">
+    <div class="box"></div><div class="lid"></div><div class="bow"><i></i></div>
+  </div>
+  <div class="cake" aria-hidden="true">
+    <div class="flame"></div><div class="candle"></div><div class="icing"></div><div class="cake-body"></div><div class="plate"></div>
+  </div>
+  <div class="hint">點擊禮物盒，開啟生日驚喜 ✨</div>
+  <div class="message">祝偷偷生日快樂 愛你 ♡</div>
+</main>
+<script>
+const scene=document.getElementById('scene'),gift=document.getElementById('gift');
+function openGift(){scene.classList.add('open')}
+gift.addEventListener('click',openGift);
+gift.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openGift()}});
+</script>
+</body>
+</html>
